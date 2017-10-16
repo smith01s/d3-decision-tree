@@ -5,5 +5,8 @@
   "main": "index.js",
   "repository": "https://github.com/newey01c/d3-decision-tree.git",
   "author": "Charles Newey",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "d3": "^4.11.0"
+  }
 }
