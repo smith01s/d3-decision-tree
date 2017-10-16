@@ -1,0 +1,9 @@
+{
+  "name": "d3-decision-tree",
+  "version": "0.0.1",
+  "description": "A decision tree visualisation in D3.js, designed to be interoperable with Scikit-Learn",
+  "main": "index.js",
+  "repository": "https://github.com/newey01c/d3-decision-tree.git",
+  "author": "Charles Newey",
+  "license": "MIT"
+}
