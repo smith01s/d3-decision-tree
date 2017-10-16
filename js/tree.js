@@ -1,34 +1,37 @@
-var margin = {
-  top: 20,
-  right: 120,
-  bottom: 20,
-  left: 120
-}
-
-var width = 960 - margin.right - margin.left;
-var height = 800 - margin.top - margin.bottom;
 var circleRadius = 4;
 
 var i = 0;
-var duration = 750;
+var duration = 500;
 var root;
 
-var tree = d3.tree().size([height, width]);
+var margin = 75;
 
-var svg = d3.select("body")
+var w = window.innerWidth;
+var h = window.innerHeight;
+
+var svg = d3.select("#tree")
   .append("svg")
-  .attr("width", width + margin.right + margin.left)
-  .attr("height", height + margin.top + margin.bottom)
+  .attr("preserveAspectRatio", "xMinYMin meet")
+  .attr("viewBox", `0 0 ${w - margin} ${h}`)
   .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  .attr("width", w + margin + margin)
+  .attr("transform", "translate(" + margin + "," + 0 + ")");
+
+var tooltip = d3.select("#tree")
+  .append("p")
+  .classed("tooltip", true)
+  .style("opacity", 0);
+
+var tree = d3.tree().size([h, w]);
 
 d3.json("../data/flare.json", function(error, data) {
   if (error) throw error;
 
+  console.log(w, h);
+
   root = d3.hierarchy(data, function(d) { return d.children; });
 
-
-  root.x0 = height / 2;
+  root.x0 = margin;
   root.y0 = 0;
 
   function collapse(d) {
@@ -43,7 +46,6 @@ d3.json("../data/flare.json", function(error, data) {
   update(root);
 });
 
-d3.select(self.frameElement).style("height", "800px");
 
 /*
  * Adapted and heavily based upon the D3(v4) version of Mike Bostock"s
@@ -68,18 +70,20 @@ function update(source) {
   var node = svg.selectAll("g.node")
     .data(nodes, function(d) {return d.id || (d.id = ++i); });
 
-  // Enter any new modes at the parent"s previous position.
+  // Enter any new nodes at the parent's previous position.
   var nodeEnter = node.enter().append("g")
     .attr("class", "node")
     .attr("transform", function(d) {
       return "translate(" + source.y0 + "," + source.x0 + ")";
     })
+    .on("mouseover", showTooltip)
+    .on("mouseout", hideTooltip)
     .on("click", click);
 
   // Add Circle for the nodes
   nodeEnter.append("circle")
     .attr("class", "node")
-    .attr("r", 1e-6)
+    .attr("r", circleRadius)
     .style("fill", function(d) {
       return d._children ? "lightsteelblue" : "#fff";
     });
@@ -169,12 +173,10 @@ function update(source) {
 
   // Creates a curved (diagonal) path from parent to the child nodes
   function diagonal(s, d) {
-
     path = `M ${s.y} ${s.x}
     C ${(s.y + d.y) / 2} ${s.x},
       ${(s.y + d.y) / 2} ${d.x},
       ${d.y} ${d.x}`
-
     return path
   }
 
@@ -188,5 +190,26 @@ function update(source) {
       d._children = null;
     }
     update(d);
+  }
+
+  function showTooltip(d) {
+    function tooltipText(d) {
+      return d.data.name || "None";
+    }
+
+    h = tooltip.node().getBoundingClientRect().height;
+    tooltip
+      .text(tooltipText(d))
+      .style("left", (d3.event.clientX + h) + "px")
+      .style("top", (d3.event.clientY - h) + "px")
+      .transition()
+      .duration(duration)
+      .style("opacity", 0.9);
+  }
+
+  function hideTooltip(d) {
+    tooltip.transition()
+      .duration(duration)
+      .style("opacity", 0.0);
   }
 }
