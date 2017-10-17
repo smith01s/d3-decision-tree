@@ -1,0 +1,169 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "class": "invalid",
+                            "metrics": {
+                                "n_samples": 90303,
+                                "purity": 0.520752747518359
+                            },
+                            "side": "left"
+                        },
+                        {
+                            "class": "valid",
+                            "metrics": {
+                                "n_samples": 1183768,
+                                "purity": 0.7770653929758095
+                            },
+                            "side": "right"
+                        }
+                    ],
+                    "class": "valid",
+                    "metrics": {
+                        "n_samples": 1274071,
+                        "purity": 0.7029099390914911
+                    },
+                    "rule": {
+                        "feature": "aircraft_model",
+                        "operator": "<=",
+                        "threshold": "A310-308(F)"
+                    },
+                    "side": "left"
+                },
+                {
+                    "children": [
+                        {
+                            "class": "valid",
+                            "metrics": {
+                                "n_samples": 2392083,
+                                "purity": 0.5023649725717727
+                            },
+                            "side": "left"
+                        },
+                        {
+                            "class": "valid",
+                            "metrics": {
+                                "n_samples": 594489,
+                                "purity": 0.681599916060605
+                            },
+                            "side": "right"
+                        }
+                    ],
+                    "class": "valid",
+                    "metrics": {
+                        "n_samples": 2986572,
+                        "purity": 0.5117779621154697
+                    },
+                    "rule": {
+                        "feature": "aircraft_model",
+                        "operator": "<=",
+                        "threshold": "B767-3Y0(ER)"
+                    },
+                    "side": "right"
+                }
+            ],
+            "class": "valid",
+            "metrics": {
+                "n_samples": 4260643,
+                "purity": 0.5377504482426562
+            },
+            "rule": {
+                "feature": "aircraft_model",
+                "operator": "<=",
+                "threshold": "A320-271N"
+            },
+            "side": "left"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "class": "valid",
+                            "metrics": {
+                                "n_samples": 126081,
+                                "purity": 0.5044239947702802
+                            },
+                            "side": "left"
+                        },
+                        {
+                            "class": "valid",
+                            "metrics": {
+                                "n_samples": 211834,
+                                "purity": 0.815024607288386
+                            },
+                            "side": "right"
+                        }
+                    ],
+                    "class": "valid",
+                    "metrics": {
+                        "n_samples": 337915,
+                        "purity": 0.6125463251801119
+                    },
+                    "rule": {
+                        "feature": "lfl_version",
+                        "operator": "<=",
+                        "threshold": "17.226.1002"
+                    },
+                    "side": "left"
+                },
+                {
+                    "children": [
+                        {
+                            "class": "invalid",
+                            "metrics": {
+                                "n_samples": 224846,
+                                "purity": 0.619338509871075
+                            },
+                            "side": "left"
+                        },
+                        {
+                            "class": "invalid",
+                            "metrics": {
+                                "n_samples": 524306,
+                                "purity": 0.8693671027959655
+                            },
+                            "side": "right"
+                        }
+                    ],
+                    "class": "invalid",
+                    "metrics": {
+                        "n_samples": 749152,
+                        "purity": 0.8016761820889156
+                    },
+                    "rule": {
+                        "feature": "aircraft_model",
+                        "operator": "<=",
+                        "threshold": "B767-34AF(ER)"
+                    },
+                    "side": "right"
+                }
+            ],
+            "class": "invalid",
+            "metrics": {
+                "n_samples": 1087067,
+                "purity": 0.6714294564978781
+            },
+            "rule": {
+                "feature": "customer",
+                "operator": "<=",
+                "threshold": "SAL"
+            },
+            "side": "right"
+        }
+    ],
+    "class": "valid",
+    "metrics": {
+        "n_samples": 5347710,
+        "purity": 0.5000000000807899
+    },
+    "rule": {
+        "feature": "lfl_version",
+        "operator": "<=",
+        "threshold": "17.172.1420"
+    },
+    "side": "root"
+}

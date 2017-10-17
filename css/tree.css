@@ -39,6 +39,14 @@ svg {
 
 .link {
   fill: none;
-  stroke: #ccc;
   stroke-width: 1.5px;
+  stroke: #ccc;
+}
+
+.left {
+  stroke: #77dd77;
+}
+
+.right {
+  stroke: #ff6961;
 }

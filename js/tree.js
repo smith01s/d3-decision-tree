@@ -4,7 +4,7 @@ var i = 0;
 var duration = 500;
 var root;
 
-var margin = 75;
+var margin = 200;
 
 var w = window.innerWidth;
 var h = window.innerHeight;
@@ -24,15 +24,29 @@ var tooltip = d3.select("#tree")
 
 var tree = d3.tree().size([h, w]);
 
-d3.json("../data/flare.json", function(error, data) {
+d3.json("../data/tree.json", function(error, data) {
   if (error) throw error;
-
-  console.log(w, h);
 
   root = d3.hierarchy(data, function(d) { return d.children; });
 
   root.x0 = margin;
   root.y0 = 0;
+
+  function transform(d) {
+    var name = d.data.class;
+    if (d.data.rule !== undefined) {
+      name = `${d.data.rule.feature}
+              ${d.data.rule.operator}
+              ${d.data.rule.threshold}`;
+    }
+    d.data.name = name;
+
+    if (d.children) {
+      d.children.forEach(transform);
+    }
+  }
+
+  transform(root);
 
   function collapse(d) {
     if (d.children) {
@@ -59,7 +73,7 @@ function update(source) {
 
   // Compute the new tree layout.
   var nodes = treeData.descendants(),
-    links = treeData.descendants().slice(1);
+      links = treeData.descendants().slice(1);
 
   // Normalize for fixed-depth.
   nodes.forEach(function(d){ d.y = d.depth * 180});
@@ -142,7 +156,15 @@ function update(source) {
 
   // Enter any new links at the parent"s previous position.
   var linkEnter = link.enter().insert("path", "g")
-    .attr("class", "link")
+    .attr("class", function (d) {
+      var classes = "link";
+      if (d.data.side === "left") {
+        classes = classes + " " + "left";
+      } else if (d.data.side === "right") {
+        classes = classes + " " + "right";
+      }
+      return classes;
+    })
     .attr("d", function(d){
       var o = {x: source.x0, y: source.y0}
       return diagonal(o, o)
