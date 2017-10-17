@@ -32,16 +32,24 @@ d3.json("../data/tree.json", function(error, data) {
   root.x0 = margin;
   root.y0 = 0;
 
+  // recursively transform nodes
   function transform(d) {
+    // leaf name
     var name = d.data.class;
     if (d.data.rule !== undefined) {
-      name = `${d.data.rule.feature}
-              ${d.data.rule.operator}
-              ${d.data.rule.threshold}`;
+      name = `${d.data.rule.feature} ${d.data.rule.operator} ${d.data.rule.threshold}`;
     }
     d.data.name = name;
 
+    // leaf tooltip
+    function bold(a) { return `<strong>${a}</strong>`; };
+    var tooltipText = `${bold("Purity:")} ${d.data.metrics.purity.toFixed(2)}
+                       <br />
+                       ${bold("Samples:")} ${d.data.metrics.n_samples}`;
+    d.data.tooltip = tooltipText;
+
     if (d.children) {
+      d.children.reverse();
       d.children.forEach(transform);
     }
   }
@@ -216,12 +224,12 @@ function update(source) {
 
   function showTooltip(d) {
     function tooltipText(d) {
-      return d.data.name || "None";
+      return d.data.tooltip || "None";
     }
 
     h = tooltip.node().getBoundingClientRect().height;
     tooltip
-      .text(tooltipText(d))
+      .html(tooltipText(d))
       .style("left", (d3.event.clientX + h) + "px")
       .style("top", (d3.event.clientY - h) + "px")
       .transition()
